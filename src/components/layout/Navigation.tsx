@@ -168,10 +168,10 @@ const Navigation: React.FC = () => {
       </nav>
 
       {/* Logout Button */}
-      <div className={`${sidebarCollapsed ? 'fixed bottom-4 left-4' : 'absolute bottom-4 left-3 right-3'}`}>
+      <div className={`${sidebarCollapsed ? 'fixed bottom-4 left-4' : 'absolute bottom-4 left-3'}`}>
         <button
           onClick={handleLogout}
-          className={`${sidebarCollapsed ? 'w-12 h-12 rounded-full shadow-lg' : 'w-full'} flex items-center px-3 py-3 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 group ${
+          className={`${sidebarCollapsed ? 'w-12 h-12 rounded-full shadow-lg' : 'w-auto'} flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 group ${
             sidebarCollapsed ? 'justify-center bg-white border border-gray-200' : ''
           }`}
           title={sidebarCollapsed ? 'Sign Out' : ''}
