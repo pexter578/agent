@@ -72,3 +72,38 @@ export interface DepartmentAnalytics {
   engagementScore: number;
   trainingCost: number;
 }
+
+export interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  isAdmin: boolean;
+}
+
+export interface Quiz {
+  id: string;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  explanation: string;
+}
+
+export interface CodingChallenge {
+  id: string;
+  title: string;
+  description: string;
+  starterCode: string;
+  solution: string;
+}
+
+export interface Course {
+  id: string;
+  title: string;
+  description: string;
+  difficulty: string;
+  duration: string;
+  modules: number;
+  quizzes: Quiz[];
+  codingChallenges: CodingChallenge[];
+}

@@ -74,8 +74,8 @@ export const mockUsers: User[] = [
   },
   {
     id: '2',
-    name: 'John Smith',
-    email: 'john.smith@hexaware.com',
+    name: 'Vittal',
+    email: 'vittal@hexaware.com',
     department: 'Engineering',
     role: 'DevOps Engineer',
     tsrRole: 'Cloud Solutions Architect',
@@ -108,8 +108,8 @@ export const mockUsers: User[] = [
   },
   {
     id: '3',
-    name: 'Maria Rodriguez',
-    email: 'maria.rodriguez@hexaware.com',
+    name: 'Esther',
+    email: 'esther@hexaware.com',
     department: 'Data Science',
     role: 'Data Analyst',
     tsrRole: 'Senior Data Scientist',
@@ -130,8 +130,51 @@ export const mockUsers: User[] = [
         category: 'Data Science'
       }
     ]
+  },
+  {
+    id: '4',
+    name: 'Laksshaiya',
+    email: 'laksshaiya@hexaware.com',
+    department: 'QA',
+    role: 'QA Engineer',
+    tsrRole: 'Test Automation Lead',
+    profileStatus: 'loaded',
+    assessmentStatus: 'pending',
+    recommendationStatus: 'pending',
+    learningStatus: 'not-started',
+    completionRate: 15,
+    lastActivity: new Date('2025-01-18T11:20:00'),
+    skillGaps: [
+      {
+        id: '6',
+        skill: 'Automation Testing',
+        currentLevel: 2,
+        requiredLevel: 4,
+        gap: 2,
+        priority: 'high',
+        category: 'Testing'
+      },
+      {
+        id: '7',
+        skill: 'Selenium WebDriver',
+        currentLevel: 1,
+        requiredLevel: 4,
+        gap: 3,
+        priority: 'medium',
+        category: 'Testing'
+      }
+    ]
   }
 ];
+
+// Admin user data
+export const adminUser = {
+  id: 'admin-1',
+  name: 'Admin User',
+  email: 'admin@hexaware.com',
+  role: 'System Administrator',
+  isAdmin: true
+};
 
 export const mockAssessments: Assessment[] = [
   {
@@ -156,7 +199,7 @@ export const mockAssessments: Assessment[] = [
 
 export const mockAgentStatus: AgentStatus[] = [
   {
-    name: 'Profile Agent',
+    name: 'GenAI Content Generator',
     status: 'processing',
     queueSize: 3,
     avgLatency: 1.2,
@@ -172,7 +215,7 @@ export const mockAgentStatus: AgentStatus[] = [
     lastProcessed: new Date('2025-01-20T16:55:00')
   },
   {
-    name: 'Recommender Agent',
+    name: 'AI Recommender Agent',
     status: 'processing',
     queueSize: 5,
     avgLatency: 3.8,
@@ -180,7 +223,7 @@ export const mockAgentStatus: AgentStatus[] = [
     lastProcessed: new Date('2025-01-20T16:59:00')
   },
   {
-    name: 'Tracker Agent',
+    name: 'Progress Tracker Agent',
     status: 'idle',
     queueSize: 1,
     avgLatency: 0.8,
@@ -252,5 +295,130 @@ export const mockDepartmentAnalytics: DepartmentAnalytics[] = [
     ],
     engagementScore: 63,
     trainingCost: 67000
+  }
+];
+
+// GenAI Course Content
+export const genAICourses = [
+  {
+    id: 'course-1',
+    title: 'React Native Development',
+    description: 'Master mobile app development with React Native',
+    difficulty: 'Intermediate',
+    duration: '40 hours',
+    modules: 8,
+    quizzes: [
+      {
+        id: 'quiz-1',
+        question: 'What is the primary advantage of React Native over native development?',
+        options: [
+          'Better performance',
+          'Code reusability across platforms',
+          'Smaller app size',
+          'Better security'
+        ],
+        correctAnswer: 1,
+        explanation: 'React Native allows you to write code once and deploy it on both iOS and Android platforms, significantly reducing development time and cost.'
+      },
+      {
+        id: 'quiz-2',
+        question: 'Which component is used for navigation in React Native?',
+        options: [
+          'NavigationContainer',
+          'Router',
+          'Navigator',
+          'RouteHandler'
+        ],
+        correctAnswer: 0,
+        explanation: 'NavigationContainer is the component that manages the navigation tree and contains the navigation state.'
+      }
+    ],
+    codingChallenges: [
+      {
+        id: 'code-1',
+        title: 'Create a Simple Counter App',
+        description: 'Build a React Native component that displays a counter with increment and decrement buttons.',
+        starterCode: `import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+const Counter = () => {
+  // Your code here
+  
+  return (
+    <View style={styles.container}>
+      {/* Add your counter UI here */}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export default Counter;`,
+        solution: `import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <View style={styles.container}>
+      <Text style={styles.countText}>{count}</Text>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => setCount(count - 1)}
+        >
+          <Text style={styles.buttonText}>-</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => setCount(count + 1)}
+        >
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  countText: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: 20,
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+});
+
+export default Counter;`
+      }
+    ]
   }
 ];

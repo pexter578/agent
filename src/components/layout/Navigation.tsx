@@ -7,13 +7,24 @@ import {
   CogIcon,
   BookOpenIcon,
   BeakerIcon,
-  ArrowRightOnRectangleIcon
+  ArrowRightOnRectangleIcon,
+  Bars3Icon,
+  XMarkIcon,
+  SparklesIcon
 } from '@heroicons/react/24/outline';
 import { useApp } from '../../context/AppContext';
 
 const Navigation: React.FC = () => {
   const location = useLocation();
-  const { isAdmin, toggleAdminMode, currentUser, setCurrentUser } = useApp();
+  const { 
+    currentUser, 
+    setCurrentUser, 
+    currentAdmin, 
+    setCurrentAdmin, 
+    isAdminAuthenticated,
+    sidebarCollapsed,
+    toggleSidebar 
+  } = useApp();
 
   const learnerNavigation = [
     { name: 'Dashboard', href: '/', icon: HomeIcon },
@@ -28,53 +39,77 @@ const Navigation: React.FC = () => {
     { name: 'Analytics', href: '/admin/analytics', icon: ChartBarIcon },
   ];
 
-  const navigation = isAdmin ? adminNavigation : learnerNavigation;
+  const navigation = isAdminAuthenticated ? adminNavigation : learnerNavigation;
+  const isAdmin = isAdminAuthenticated;
 
   const handleLogout = () => {
-    setCurrentUser(null);
+    if (isAdmin) {
+      setCurrentAdmin(null);
+    } else {
+      setCurrentUser(null);
+    }
   };
 
   return (
-    <div className="bg-white shadow-sm border-r border-gray-200 w-64 min-h-screen">
-      <div className="p-6">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-            <BookOpenIcon className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">LearningAI</h1>
-            <p className="text-xs text-gray-500">Skill Gap Analysis</p>
-          </div>
+    <div className={`bg-white shadow-lg border-r border-gray-200 min-h-screen transition-all duration-300 ease-in-out ${
+      sidebarCollapsed ? 'w-16' : 'w-64'
+    }`}>
+      {/* Header with Toggle */}
+      <div className="p-4 border-b border-gray-200">
+        <div className="flex items-center justify-between">
+          {!sidebarCollapsed && (
+            <div className="flex items-center space-x-3 animate-fade-in">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="relative">
+                  <BookOpenIcon className="w-6 h-6 text-white" />
+                  <SparklesIcon className="w-3 h-3 text-yellow-300 absolute -top-1 -right-1 animate-pulse" />
+                </div>
+              </div>
+              <div>
+                <h1 className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  Hexaware Learning
+                </h1>
+                <p className="text-xs text-gray-500">
+                  {isAdmin ? 'Admin Portal' : 'GenAI Powered'}
+                </p>
+              </div>
+            </div>
+          )}
+          <button
+            onClick={toggleSidebar}
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200 group"
+          >
+            {sidebarCollapsed ? (
+              <Bars3Icon className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />
+            ) : (
+              <XMarkIcon className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />
+            )}
+          </button>
         </div>
       </div>
 
-      <div className="px-4 mb-6">
-        <button
-          onClick={toggleAdminMode}
-          className={`w-full px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-            isAdmin
-              ? 'bg-purple-100 text-purple-700 hover:bg-purple-200'
-              : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-          }`}
-        >
-          {isAdmin ? 'Switch to Learner View' : 'Switch to Admin View'}
-        </button>
-      </div>
-
-      {!isAdmin && currentUser && (
-        <div className="px-6 mb-6">
-          <div className="bg-gray-50 rounded-lg p-4">
-            <h3 className="font-medium text-gray-900">{currentUser.name}</h3>
-            <p className="text-sm text-gray-600">{currentUser.role}</p>
-            <p className="text-xs text-gray-500 mt-1">TSR: {currentUser.tsrRole}</p>
-            <div className="mt-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-600">Progress</span>
-                <span className="font-medium">{currentUser.completionRate}%</span>
+      {/* User Profile Section */}
+      {!isAdmin && currentUser && !sidebarCollapsed && (
+        <div className="p-4 animate-slide-down">
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100">
+            <div className="flex items-center space-x-3 mb-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-semibold">
+                {currentUser.name.charAt(0)}
               </div>
-              <div className="mt-1 w-full bg-gray-200 rounded-full h-2">
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-gray-900 truncate">{currentUser.name}</h3>
+                <p className="text-sm text-gray-600 truncate">{currentUser.role}</p>
+                <p className="text-xs text-gray-500 truncate">TSR: {currentUser.tsrRole}</p>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-gray-600">Progress</span>
+                <span className="font-semibold text-indigo-600">{currentUser.completionRate}%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
                 <div 
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full transition-all duration-300"
+                  className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-500 ease-out"
                   style={{ width: `${currentUser.completionRate}%` }}
                 />
               </div>
@@ -83,34 +118,68 @@ const Navigation: React.FC = () => {
         </div>
       )}
 
-      <nav className="px-4 space-y-2">
+      {/* Admin Profile Section */}
+      {isAdmin && currentAdmin && !sidebarCollapsed && (
+        <div className="p-4 animate-slide-down">
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-4 border border-purple-100">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-semibold">
+                A
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-gray-900 truncate">{currentAdmin.name}</h3>
+                <p className="text-sm text-gray-600 truncate">{currentAdmin.role}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Navigation */}
+      <nav className="px-3 py-4 space-y-1">
         {navigation.map((item) => {
           const isActive = location.pathname === item.href;
           return (
             <Link
               key={item.name}
               to={item.href}
-              className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+              className={`flex items-center px-3 py-3 text-sm font-medium rounded-xl transition-all duration-200 group relative ${
                 isActive
-                  ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600'
-                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  ? `${isAdmin 
+                      ? 'bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 shadow-sm border-l-4 border-purple-500' 
+                      : 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 shadow-sm border-l-4 border-blue-500'
+                    }`
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:shadow-sm'
               }`}
+              title={sidebarCollapsed ? item.name : ''}
             >
-              <item.icon className="mr-3 h-5 w-5" />
-              {item.name}
+              <item.icon className={`h-5 w-5 ${sidebarCollapsed ? 'mx-auto' : 'mr-3'} transition-colors`} />
+              {!sidebarCollapsed && (
+                <span className="animate-fade-in">{item.name}</span>
+              )}
+              {isActive && !sidebarCollapsed && (
+                <div className="absolute right-3">
+                  <div className={`w-2 h-2 rounded-full ${isAdmin ? 'bg-purple-500' : 'bg-blue-500'} animate-pulse`} />
+                </div>
+              )}
             </Link>
           );
         })}
       </nav>
 
       {/* Logout Button */}
-      <div className="absolute bottom-4 left-4 right-4">
+      <div className="absolute bottom-4 left-3 right-3">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center px-4 py-3 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+          className={`w-full flex items-center px-3 py-3 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 group ${
+            sidebarCollapsed ? 'justify-center' : ''
+          }`}
+          title={sidebarCollapsed ? 'Sign Out' : ''}
         >
-          <ArrowRightOnRectangleIcon className="mr-3 h-5 w-5" />
-          Sign Out
+          <ArrowRightOnRectangleIcon className={`h-5 w-5 ${sidebarCollapsed ? 'mx-auto' : 'mr-3'} group-hover:text-red-600 transition-colors`} />
+          {!sidebarCollapsed && (
+            <span className="animate-fade-in">Sign Out</span>
+          )}
         </button>
       </div>
     </div>

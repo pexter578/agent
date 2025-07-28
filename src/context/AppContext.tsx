@@ -1,17 +1,20 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User, AgentStatus } from '../types';
-import { mockUsers, mockAgentStatus } from '../data/mockData';
+import { User, AgentStatus, AdminUser } from '../types';
+import { mockUsers, mockAgentStatus, adminUser } from '../data/mockData';
 
 interface AppContextType {
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
+  currentAdmin: AdminUser | null;
+  setCurrentAdmin: (admin: AdminUser | null) => void;
   isAuthenticated: boolean;
+  isAdminAuthenticated: boolean;
   users: User[];
   updateUser: (userId: string, updates: Partial<User>) => void;
   agentStatus: AgentStatus[];
   updateAgentStatus: (agentName: string, status: Partial<AgentStatus>) => void;
-  isAdmin: boolean;
-  toggleAdminMode: () => void;
+  sidebarCollapsed: boolean;
+  toggleSidebar: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -26,9 +29,10 @@ export const useApp = () => {
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentAdmin, setCurrentAdmin] = useState<AdminUser | null>(null);
   const [users, setUsers] = useState<User[]>(mockUsers);
   const [agentStatus, setAgentStatus] = useState<AgentStatus[]>(mockAgentStatus);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Custom setCurrentUser that handles onboarding status
   const setCurrentUserWithOnboarding = (user: User | null) => {
@@ -60,8 +64,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     ));
   };
 
-  const toggleAdminMode = () => {
-    setIsAdmin(prev => !prev);
+  const toggleSidebar = () => {
+    setSidebarCollapsed(prev => !prev);
   };
 
   // Simulate real-time agent updates
@@ -82,13 +86,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     <AppContext.Provider value={{
       currentUser,
       setCurrentUser: setCurrentUserWithOnboarding,
+      currentAdmin,
+      setCurrentAdmin,
       isAuthenticated: currentUser !== null,
+      isAdminAuthenticated: currentAdmin !== null,
       users,
       updateUser,
       agentStatus,
       updateAgentStatus,
-      isAdmin,
-      toggleAdminMode
+      sidebarCollapsed,
+      toggleSidebar
     }}>
       {children}
     </AppContext.Provider>
