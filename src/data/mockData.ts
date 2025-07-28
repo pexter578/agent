@@ -164,6 +164,36 @@ export const mockUsers: User[] = [
         category: 'Testing'
       }
     ]
+  },
+  {
+    id: '5',
+    name: 'John',
+    email: 'john@hexaware.com',
+    department: 'Engineering',
+    role: 'Junior Developer',
+    tsrRole: 'Software Developer',
+    profileStatus: 'loading',
+    assessmentStatus: 'pending',
+    recommendationStatus: 'pending',
+    learningStatus: 'not-started',
+    completionRate: 0,
+    lastActivity: new Date('2025-01-20T09:00:00'),
+    skillGaps: []
+  },
+  {
+    id: '6',
+    name: 'Sarah',
+    email: 'sarah@hexaware.com',
+    department: 'Data Science',
+    role: 'Data Analyst Trainee',
+    tsrRole: 'Data Analyst',
+    profileStatus: 'loading',
+    assessmentStatus: 'pending',
+    recommendationStatus: 'pending',
+    learningStatus: 'not-started',
+    completionRate: 0,
+    lastActivity: new Date('2025-01-20T08:30:00'),
+    skillGaps: []
   }
 ];
 

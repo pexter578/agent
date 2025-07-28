@@ -37,8 +37,35 @@ const Dashboard: React.FC = () => {
     <div className="p-8 max-w-7xl mx-auto">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Welcome back, {currentUser.name}</h1>
-        <p className="text-lg text-gray-600 mt-2">Continue your personalized learning journey</p>
+        <p className="text-lg text-gray-600 mt-2">
+          {isNewUser ? 'Complete your assessment to get personalized recommendations' : 'Continue your personalized learning journey'}
+        </p>
       </div>
+
+      {/* New User Welcome Message */}
+      {isNewUser && (
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 mb-8 border border-blue-200 animate-slide-up">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-lg">👋</span>
+              </div>
+            </div>
+            <div className="ml-4">
+              <h3 className="text-lg font-semibold text-blue-900">Welcome to Hexaware Learning!</h3>
+              <p className="text-blue-700 mt-1">
+                Your profile has been successfully created. Take your first assessment to get personalized learning recommendations based on your skills and career goals.
+              </p>
+              <button 
+                onClick={() => window.location.href = '/assessments'}
+                className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Start Your Assessment
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

@@ -168,15 +168,15 @@ const Navigation: React.FC = () => {
       </nav>
 
       {/* Logout Button */}
-      <div className="absolute bottom-4 left-3 right-3">
+      <div className={`${sidebarCollapsed ? 'fixed bottom-4 left-4' : 'absolute bottom-4 left-3 right-3'}`}>
         <button
           onClick={handleLogout}
-          className={`w-full flex items-center px-3 py-3 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 group ${
-            sidebarCollapsed ? 'justify-center' : ''
+          className={`${sidebarCollapsed ? 'w-12 h-12 rounded-full shadow-lg' : 'w-full'} flex items-center px-3 py-3 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200 group ${
+            sidebarCollapsed ? 'justify-center bg-white border border-gray-200' : ''
           }`}
           title={sidebarCollapsed ? 'Sign Out' : ''}
         >
-          <ArrowRightOnRectangleIcon className={`h-5 w-5 ${sidebarCollapsed ? 'mx-auto' : 'mr-3'} group-hover:text-red-600 transition-colors`} />
+          <ArrowRightOnRectangleIcon className={`h-5 w-5 ${sidebarCollapsed ? '' : 'mr-3'} group-hover:text-red-600 transition-colors`} />
           {!sidebarCollapsed && (
             <span className="animate-fade-in">Sign Out</span>
           )}

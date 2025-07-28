@@ -43,6 +43,7 @@ const OnboardingPage: React.FC = () => {
   const { currentUser, updateUser } = useApp();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
   
   const [employeeDetails, setEmployeeDetails] = useState<EmployeeDetails>({
     personalInfo: {
@@ -146,12 +147,45 @@ const OnboardingPage: React.FC = () => {
   };
 
   const nextStep = () => {
+    const errors = validateCurrentStep();
+    if (errors.length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
+    setValidationErrors([]);
     if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
   };
 
+  const validateCurrentStep = (): string[] => {
+    const errors: string[] = [];
+    
+    switch (currentStep) {
+      case 1:
+        if (!employeeDetails.personalInfo.firstName.trim()) errors.push('First Name is required');
+        if (!employeeDetails.personalInfo.lastName.trim()) errors.push('Last Name is required');
+        if (!employeeDetails.personalInfo.phone.trim()) errors.push('Phone Number is required');
+        if (!employeeDetails.personalInfo.employeeId.trim()) errors.push('Employee ID is required');
+        if (!employeeDetails.personalInfo.joinDate) errors.push('Join Date is required');
+        if (!employeeDetails.personalInfo.department) errors.push('Department is required');
+        if (!employeeDetails.personalInfo.role.trim()) errors.push('Current Role is required');
+        break;
+      case 2:
+        if (employeeDetails.currentSkills.length === 0) errors.push('Please add at least one skill');
+        break;
+      case 3:
+        // Documents are optional, no validation needed
+        break;
+      case 4:
+        if (!employeeDetails.careerGoals.trim()) errors.push('Career Goals are required');
+        break;
+    }
+    
+    return errors;
+  };
   const prevStep = () => {
+    setValidationErrors([]);
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
     }
@@ -213,6 +247,27 @@ const OnboardingPage: React.FC = () => {
 
         {/* Form Content */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+          {/* Validation Errors */}
+          {validationErrors.length > 0 && (
+            <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4 animate-shake">
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-red-800">Please fill in all required fields:</h3>
+                  <ul className="mt-2 text-sm text-red-700 list-disc list-inside">
+                    {validationErrors.map((error, index) => (
+                      <li key={index}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Step 1: Personal Information */}
           {currentStep === 1 && (
             <div className="space-y-6">

@@ -223,6 +223,20 @@ const LoginPage: React.FC = () => {
                   <div className="text-sm font-medium text-gray-900">Laksshaiya</div>
                   <div className="text-xs text-gray-500">QA Engineer</div>
                 </button>
+                <button
+                  onClick={() => demoLogin('john@hexaware.com')}
+                  className="text-left p-3 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  <div className="text-sm font-medium text-gray-900">John</div>
+                  <div className="text-xs text-gray-500">New Employee</div>
+                </button>
+                <button
+                  onClick={() => demoLogin('sarah@hexaware.com')}
+                  className="text-left p-3 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 rounded-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  <div className="text-sm font-medium text-gray-900">Sarah</div>
+                  <div className="text-xs text-gray-500">New Employee</div>
+                </button>
               </div>
             </div>
           ) : (
