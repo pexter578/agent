@@ -12,6 +12,8 @@ const Dashboard: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  const isNewUser = !currentUser.currentPath;
+
   const stats = [
     {
       name: 'Hours Completed',
